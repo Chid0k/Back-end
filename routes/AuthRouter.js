@@ -5,14 +5,16 @@ const router = express.Router();
 router.post("/login", async (req, res) => {
   console.log("/api/admin/login");
   const { login_name, login_pass } = req.body;
-    console.log("Login data:", { login_name, login_pass });
-    const user = await User.findOne({ login_name: login_name, login_pass: login_pass });
-    if (!user) {
-        return res.status(401).json({ status: "FAIL", message: "Invalid credentials" });
-    }
-    console.log("User logged in:", user);
-    req.session.user = user;
-    return res.json(user);
+  const user = await User.findOne({
+    login_name: login_name,
+    login_pass: login_pass,
+  });
+  if (!user) {
+    return res
+      .status(401)
+      .json({ status: "FAIL", message: "Invalid credentials" });
+  }
+  return res.json(user);
 });
 
 router.post("/logout", (req, res) => {
